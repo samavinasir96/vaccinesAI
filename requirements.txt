@@ -1,0 +1,8 @@
+django
+iedb
+joblib
+numpy
+pandas
+Bio
+biolib
+tensorflow

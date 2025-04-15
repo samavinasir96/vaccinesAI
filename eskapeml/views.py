@@ -11,7 +11,6 @@ import sys
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
-import pickle
 import pandas as pd
 import os
 import sys
