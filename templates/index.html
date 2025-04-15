@@ -1,0 +1,97 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+        padding: 20px;
+        max-width: 100%;
+        margin: 0 auto;
+		font-size: 14px;
+        margin-bottom: -5%;
+    }
+    
+    .card {
+        background-color: #f9f9f9;
+        border-left: 4px solid #3498db;
+        padding: 25px;
+        border-radius: 0 4px 4px 0;
+        flex: 1;
+        min-width: 300px;
+        max-width: 100%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .card-logo {
+        height: 120px; /* Adjust based on your logo's aspect ratio */
+    }
+    
+    .card-logo img {
+        height: 100%;
+        width: auto;
+        max-width: 100%;
+    }
+    
+    .card p {
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+    
+    .go-link {
+        display: inline-block;
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+    }
+    
+    .go-link:hover {
+        background-color: #2980b9;
+    }
+    
+    .highlight {
+        font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+        .card-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
+<div class="card-container">
+    <div class="card">
+        <div class="card-logo" style="margin-bottom: 15px;">
+            <img src="{% static 'vacsolml-logo.png' %}" alt="VacSol-ML(ESKAPE)">
+        </div>
+        <p><span class="highlight">VacSol-ML(ESKAPE)</span> is an open-source, <span class="highlight">reverse vaccinology pipeline</span>, with <span class="highlight">advanced machine learning algorithms</span> to streamline the identification and evaluation of <span class="highlight">vaccine immunogens</span> targeted for <span class="highlight">ESKAPE</span> pathogens. VacSol-ML's powerful ensemble model expertly analyze <span class="highlight">protein sequence data</span>, providing unparalleled insights for targeted vaccine development.</p>
+        <a href="{% url 'eskapeml_upload' %}" class="go-link">Go to VacSol-ML(ESKAPE)</a>
+    </div>
+
+    <div class="card">
+        <div class="card-logo" style="margin-bottom: 8px;">
+            <img src="{% static 'bvac-ai-logo.png' %}" alt="Bvac-Al">
+        </div>
+        <p><span class="highlight">Bvac-AI</span> is the <span class="highlight">upgraded version</span> of our open-source, reverse vaccinology pipeline, <span class="highlight">VacSol-ML(ESKAPE)</span>, now expanded to address the urgent threat of overall <span class="highlight">antimicrobial-resistant pathogens</span>. Utilizing advanced machine learning algorithms, Bvac-Al streamlines the identification and evaluation of potential vaccine immunogens. Its powerful ensemble model expertly analyzes <span class="highlight">protein sequence data</span>, providing unparalleled insights for the development of targeted vaccines against a <span class="highlight">wider spectrum of resistant bacteria</span>.</p>
+        <a href="#" class="go-link">Go to Bvac-Al</a>
+    </div>
+</div>
+<br>
+
+{% endblock %}

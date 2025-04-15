@@ -1,0 +1,277 @@
+{% extends './base.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
+    <style>
+        #owl-demo .item img {
+            display: block;
+            width: 100%;
+            height: 310px;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        hr {
+            border: 1px solid #4D5061;
+            margin: 10px 0;
+        }
+    </style>
+
+</head>
+
+<style>
+
+  .main_prediction{
+    margin-inline-start: 120px;
+  }
+
+  .table_prediction {
+    border-collapse: collapse;
+    margin-top: 1%;
+    width: 80%;
+    font-size: medium;
+    height: 5%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  button{
+    font-family: Bahnschrift;
+    display: block;
+    font-size: medium;
+    font-weight: bold;
+    height: 40px;
+    border: none;
+    background-color: #05445E;
+    color: #fff;
+    border-radius: 5px;
+    width: 80%;
+    
+  }  
+  h3{
+    margin-inline-start: 120px;
+    font-family: Bahnschrift;
+    font-size: medium;
+    font-weight: bold;
+    margin-bottom: 0.5%;
+  }
+  
+  .Properties_Heading{
+    border-color: #189AB4;
+    color: #fff;
+    background-color: #189AB4;
+    text-align:center;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    width: 30%;
+    margin-inline-start: 35%;
+    font-family: Bahnschrift;
+    font-size: medium;
+    font-weight: bold;
+  }
+  .panel-success{
+    margin-inline-start: 120px;
+  }
+  h4{
+    font-family: Bahnschrift;
+    font-size: medium;
+    font-weight: bold;
+    border-color: #05445E;
+    color: #fff;
+    background-color: #05445E;
+    text-align:center;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    width: 80%;
+    border-radius: 5px;
+  }
+  h5{
+    font-family: Bahnschrift;
+    font-size: medium;
+    font-weight: bold;
+  }
+  .panel-heading{
+    height: auto 350px;
+    overflow: hidden; 
+    width: 50%;
+    margin-left: 35%;
+    margin-top: -2%;
+  } 
+    .table_prediction th,
+    .table_prediction td {
+        text-align: left;
+        padding: 8px;
+    }
+  body {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-top: 1%;
+}
+.custom-tooltip .tooltip-inner {
+    font-family: "Bahnschrift", sans-serif; /* Change this to your preferred font */
+    font-size: medium; /* Adjust the size as needed */
+    color: white; /* Optional: change the text color */
+  }
+</style>
+
+<body>
+  <div class="main_prediction">
+    <table class="table_prediction">
+      <thead style="font-family: Bahnschrift; background-color: #05445E; color: white; margin-inline-start: 120px" ;>
+          <tr>
+              <th>Protein ID <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="This is the identifier for the protein present in your input fasta sequence." data-bs-custom-class="custom-tooltip"></i></th>
+              <th>Prediction</th>
+              <th>ML Probability <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="ML probability is the prediction probability that represents the confidence level or likelihood that our machine learning model assigns to class of Potential Vaccine Candidate. If the predicted probability is 0.5 or above, the model classifies the instance is a Vaccine Candidate." data-bs-custom-class="custom-tooltip"></i></th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for result in results %}
+          <tr>
+              <td>{{ result.Protein_ID }}</td>
+              <td>
+                  {% if result.Prediction == -1 %}
+                  <span style="color: rgb(185, 0, 0); font-family: Bahnschrift; font-weight: bold;">non-vaccine candidate</span>
+                  {% elif result.Prediction == 1 %}
+                  <span style="color: rgb(4, 152, 16); font-family: Bahnschrift; font-weight: bold;">Potential Vaccine Candidate</span>
+                  {% else %}
+                      Unknown
+                  {% endif %}
+              </td>
+              <td>{{ result.Probability_Class_1}}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  </div>
+  <br>
+  <br>
+  <div class="Properties_Heading">Biological Properties of Vaccine Candidates</div>
+  <table class="table_prediction" style="table-layout: fixed; width: auto;">
+    <thead style="font-family: Bahnschrift; background-color: #05445E; color: white;">
+        <tr>
+            <th>Protein ID</th>
+            <th>Antigenicity <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Antigenic property of input proteins assessed using 'Kolaskar and Tongaonkar antigenicity scale'. The threshold value for antigenic determination is 1.0, where all residues of a protein with values >1.0 are potential antigenic determinants. This value is the average value of all residues." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>B Cells Probability Score <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Antigenic property of input proteins assessed using 'Kolaskar and Tongaonkar antigenicity scale'. The threshold value for antigenic determination is 1.0, where all residues of a protein with values >1.0 are potential antigenic determinants. This value is the average value of all residues." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>MHC I Binding Affinity (Score) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding score of peptides to MHC class I proteins by NetMHCpan 4.1." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>MHC I Binding Affinity (Rank) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding rank of peptides to MHC class I proteins by NetMHCpan 4.1. Threshold of rank for stong binders is 0.5. if rank is 0.5 or below it, peptide is strong binder to MHC Class I protein." data-bs-custom-class="custom-tooltip"></i> </th>
+            <th>MHC II Binding Affinity (Score) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding score of peptides to MHC class II proteins by NetMHCIIpan 4.0." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>MHC II Binding Affinity (Rank) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding rank of peptides to MHC class II proteins by NetMHCIIpan 4.0. Threshold of rank for stong binders is 1. if rank is 0.5 or below it, peptide is strong binder to MHC Class I protein." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Adhesion Probability <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="The probability that a given region of a protein lies on its surface, predicted by 'Emini surface accessibility scale'. The default threshold value used by Emini is 1. The peptides with a score above 1 are predicted to be on the surface of the protein." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Signal Peptide SP (Sec/SPI) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Sec/SPI: 'standard' secretory signal peptides transported by the Sec translocon and cleaved by Signal Peptidase I. This is probability score by SignalP-6.0." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Signal Peptide LIPO (Sec/SPII) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Sec/SPII: Lipoprotein signal peptides transported by the Sec translocon and cleaved by Signal Peptidase II. This is probability score by SignalP-6.0." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Signal Peptide TAT (Tat/SPI) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Tat/SPI: Tat signal peptides transported by the Tat translocon and cleaved by Signal Peptidase I. This is probability score by SignalP-6.0." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Signal Peptide SPLIPO (Sec/SPII) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Tat/SPII: Tat lipoprotein signal peptides transported by the Tat translocon and cleaved by Signal Peptidase II. This is probability score by SignalP-6.0." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Signal Peptide PILIN (Sec/SPII) <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Sec/SPIII: Pilin and pilin-like signal peptides transported by the Sec translocon and cleaved by Signal Peptidase III. This is probability score by SignalP-6.0." data-bs-custom-class="custom-tooltip"></i></th>
+            <th>Export Properties</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.Protein_ID }}</td>
+            <td>{{ result.antigenicity_1 }}</td>
+            <td>{{ result.b_cells_probability_score }}</td>
+            <td>{{ result.mhci_probability_score }}</td>
+            <td>{{ result.mhci_rank }}</td>
+            <td>{{ result.mhcii_score }}</td>
+            <td>{{ result.mhci_rank }}</td>
+            <td>{{ result.surface_probability }}</td>
+            <td>{{ result.signal_peptide_SP }}</td>
+            <td>{{ result.signal_peptide_LIPO }}</td>
+            <td>{{ result.signal_peptide_TAT }}</td>
+            <td>{{ result.signal_peptide_TATLIPO }}</td>
+            <td>{{ result.signal_peptide_PILIN }}</td>
+            <td><i class='fas fa-file-csv' style='font-size:36px; color: #189AB4; cursor: pointer;' onclick="downloadCSV()"></i></td>
+            
+            <script>
+            function downloadCSV() {
+              // Create a hidden form element
+              var form = document.createElement('form');
+              form.method = 'POST';
+              form.action = "{% url 'download_csv' %}"; // Replace with your URL
+              
+              // Create a hidden input element for CSRF token
+              var csrfToken = document.createElement('input');
+              csrfToken.type = 'hidden';
+              csrfToken.name = 'csrfmiddlewaretoken';
+              csrfToken.value = '{{ csrf_token }}'; // Use Django template to get CSRF token
+              form.appendChild(csrfToken);
+              
+              // Create a hidden input element for CSV file name
+              var csvFileName = document.createElement('input');
+              csvFileName.type = 'hidden';
+              csvFileName.name = 'csv_files';
+              csvFileName.value = 'biological_properties.csv'; // Replace with your CSV file name
+              form.appendChild(csvFileName);
+              
+              // Append the form to the body and submit
+              document.body.appendChild(form);
+              form.submit();
+              
+              // Remove the form from the body
+              document.body.removeChild(form);
+            }
+            </script>
+            
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <br>
+    <div>
+        <form class="panel-heading" method="post" action="{% url 'download_csv' %}">
+            <button style="border: 2px solid #fff; cursor: pointer; background-color: #007a7e; color: #fff;" type="submit" name="csv_files" value="physiochemical_parameters.csv">Export Physicochemical and Structural Descriptors<i class='fas fa-file-csv' style='font-size:24px; margin-left: 8px;'></i></button>
+        </form>
+    </div>
+ 
+    <form style="margin-top: 1%; margin-left: 25%;" action="{% url 'delete_files' %}" method="post">
+      {% csrf_token %}
+      <button style="cursor: pointer" type="submit">Close Analysis</button>
+    </form>
+  
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  </script>  
+  
+
+
+</body>
+</html>
+{% endblock %}

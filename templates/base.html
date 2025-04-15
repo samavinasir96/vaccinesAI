@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VacSol-ML{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto Condensed', Arial, sans-serif;
+        }
+        
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 1px 2%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 120px;
+        }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #000;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        main {
+            padding: 10px 20px;
+        }
+
+        /* Active nav item styling */
+        .active {
+            color: #000;
+            font-weight: bold;
+            border-bottom: 2px solid #3498db;
+        }
+        .logo-image {
+            height: 160px; /* Adjust as needed */
+            max-width: 100%;
+            width: auto;
+            margin-left: -10%;
+        }
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+      }
+      body{
+        width: 100%;
+      }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+      <div class="logo">
+        <a href="{% url 'index' %}">
+          <img src="{% static 'BI.png' %}" alt="VacSol-ML" class="logo-image">
+          <span class="sr-only">VacSol-ML</span>
+        </a>
+    </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+                <li><a href="{{ EXTERNAL_LINKS.BI_DATABASE }}">BI-database</a></li>                
+                <li><a href="{% url 'glossary' %}" class="{% if request.resolver_match.url_name == 'glossary' %}active{% endif %}">Glossary</a></li>
+                <li><a href="{% url 'faqs' %}" class="{% if request.resolver_match.url_name == 'faqs' %}active{% endif %}">FAQs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content will be overridden in child templates -->
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p> | &copy; 2023 Microbial Genomics & Bioinformatics |<br> 
+           Integrative Biology Laboratory, Atta-ur-Rahman School of Applied Biosciences (ASAB) <br> 
+           National University of Sciences and Technology (NUST), Islamabad.
+        </p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,252 @@
+{% extends './base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    body {
+        font-family: 'Roboto Condensed', sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+    
+    .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .description {
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+    
+    .highlight {
+        font-weight: bold;
+    }
+    
+    .results-container {
+        margin-top: 30px;
+    }
+    
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
+    
+    .results-table th, .results-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .results-table th {
+        background-color: #05445E;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .results-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .results-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .section-heading {
+        color: #05445E;
+        background-color: #f1f1f1;
+        padding: 10px 15px;
+        border-radius: 4px;
+        margin: 30px 0 15px 0;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .button {
+        background-color: #05445E;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 10px 0;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .button:hover {
+        background-color: #04304a;
+    }
+    
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 30px 0;
+    }
+    
+    .icon-button {
+        background: none;
+        border: none;
+        color: #05445E;
+        cursor: pointer;
+        font-size: 24px;
+        padding: 0;
+        margin-left: 10px;
+    }
+    
+    .vaccine-candidate {
+        color: #4CAF50;
+        font-weight: bold;
+    }
+    
+    .non-vaccine-candidate {
+        color: #F44336;
+        font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+        .results-table {
+            display: block;
+            overflow-x: auto;
+        }
+        
+        .button-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+
+<div class="main-container">
+    <div class="description-container" style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
+        <div class="logo" style="flex-shrink: 0;">
+            <img src="{% static 'vacsolml-logo.png' %}" alt="VacSol-ML Logo" style="max-height: 120px; width: auto;">
+        </div>
+        <div class="description" style="flex: 1;">
+            <p><span class="highlight">VacSol-ML(ESKAPE)</span> analysis results for your protein sequences. Below you'll find the predicted vaccine candidates along with their biological properties and physiochemical characteristics.</p>
+        </div>
+    </div>
+    
+    <div class="results-container">
+        <div class="section-heading">Prediction Results</div>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Protein ID</th>
+                    <th>Prediction</th>
+                    <th>ML Probability <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="ML probability is the prediction probability that represents the confidence level or likelihood that our machine learning model assigns to class of Potential Vaccine Candidate. If the predicted probability is 0.5 or above, the model classifies the instance is a Vaccine Candidate."></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in eskapeml_results %}
+                <tr>
+                    <td>{{ result.Protein_ID }}</td>
+                    <td>
+                        {% if result.Prediction == -1 %}
+                        <span class="non-vaccine-candidate">Non-Vaccine Candidate</span>
+                        {% elif result.Prediction == 1 %}
+                        <span class="vaccine-candidate">Potential Vaccine Candidate</span>
+                        {% else %}
+                        Unknown
+                        {% endif %}
+                    </td>
+                    <td>{{ result.Probability_Class_1 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="section-heading">Biological Properties of Vaccine Candidates</div>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Protein ID</th>
+                    <th>Antigenicity <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Antigenic property of input proteins assessed using 'Kolaskar and Tongaonkar antigenicity scale'. The threshold value for antigenic determination is 1.0, where all residues of a protein with values >1.0 are potential antigenic determinants. This value is the average value of all residues."></i></th>
+                    <th>B Cells Probability <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Probability score for B cell epitopes."></i></th>
+                    <th>MHC I Score <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding score of peptides to MHC class I proteins by NetMHCpan 4.1."></i></th>
+                    <th>MHC I Rank <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding rank of peptides to MHC class I proteins by NetMHCpan 4.1."></i></th>
+                    <th>MHC II Score <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding score of peptides to MHC class II proteins by NetMHCIIpan 4.0."></i></th>
+                    <th>MHC II Rank <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Predicted binding rank of peptides to MHC class II proteins by NetMHCIIpan 4.0."></i></th>
+                    <th>Adhesion Probability <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="The probability that a given region of a protein lies on its surface."></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in eskapeml_results %}
+                <tr>
+                    <td>{{ result.Protein_ID }}</td>
+                    <td>{{ result.antigenicity_1 }}</td>
+                    <td>{{ result.b_cells_probability_score }}</td>
+                    <td>{{ result.mhci_probability_score }}</td>
+                    <td>{{ result.mhci_rank }}</td>
+                    <td>{{ result.mhcii_score }}</td>
+                    <td>{{ result.mhci_rank }}</td>
+                    <td>{{ result.surface_probability }}</td>
+                    <td>
+                        <button class="icon-button" onclick="downloadCSV()">
+                            <i class='fas fa-file-csv'></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="button-container">
+            <form method="post" action="{% url 'eskapeml_download_csv' %}">
+                {% csrf_token %}
+                <button class="button" type="submit" name="csv_files" value="physiochemical_parameters.csv">
+                    Download Physiochemical Data <i class='fas fa-file-csv'></i>
+                </button>
+            </form>
+            
+            <form action="{% url 'eskapeml_delete_files' %}" method="post">
+                {% csrf_token %}
+                <button class="button" type="submit">
+                    Close Analysis <i class="fas fa-times"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function downloadCSV() {
+        // Create a hidden form element
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{% url 'eskapeml_download_csv' %}";
+        
+        // Create a hidden input element for CSRF token
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        form.appendChild(csrfToken);
+        
+        // Create a hidden input element for CSV file name
+        var csvFileName = document.createElement('input');
+        csvFileName.type = 'hidden';
+        csvFileName.name = 'csv_files';
+        csvFileName.value = 'biological_properties.csv';
+        form.appendChild(csvFileName);
+        
+        // Append the form to the body and submit
+        document.body.appendChild(form);
+        form.submit();
+        
+        // Remove the form from the body
+        document.body.removeChild(form);
+    }
+    
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
+
+{% endblock %}

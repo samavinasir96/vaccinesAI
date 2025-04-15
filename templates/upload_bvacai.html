@@ -1,0 +1,269 @@
+{% extends './base.html' %} {% block content %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <style>
+        h2 {
+            padding-top: 0%;
+            font-family: Bahnschrift;
+            font-size: medium;
+            font-weight: bold;
+            text-align: justify;
+            margin-left: 4%;
+        }
+
+        p {
+            font-family: Bahnschrift;
+            font-size: medium;
+            font-weight: 550;
+        }
+
+        textarea {
+            margin-left: 5%;
+            text-align: justify;
+            width: 90%;
+        }
+
+        form {
+            margin-left: 1%;
+        }
+
+        select {
+            width: 22%;
+            margin-left: 42%;
+            font-family: Bahnschrift;
+            font-size: medium;
+        }
+
+        label {
+            font-size: medium;
+            font-family: Bahnschrift;
+            margin-left: 6%;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #05445E;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            width: 60%;
+            height: 35px;
+            margin-left: 50%;
+            font-family: Bahnschrift;
+            font-weight: bolder;
+            font-size: medium;
+        }
+
+        .container {
+            display: flex;
+            margin-top: 1%;
+        }
+
+        .form-content {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .log-container {
+            width: 30%; 
+            height: 410px;
+            margin-right: 5%; 
+            margin-top: 0.5%;
+        }
+
+        #log-messages {
+            border: 1px solid #000;
+            padding: 10px;
+            background-color: #fff;
+            color: #000;
+            overflow: scroll;
+            height: 105px;
+            font-family: 'Courier New';
+            font-size: medium;
+            font-weight: 500;
+        }
+
+        .page-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar-container {
+            position: relative;
+            width: 50%; 
+            height: 20px;
+            margin-top: -12%;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-left: 25%;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: #05445E;
+            animation: progress-animation 2s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes progress-animation {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h4 {
+            margin-left: 40px;
+            font-family: Bahnschrift;
+            font-size: medium;
+            margin-top: 2%;
+        }
+
+        /* Media Queries for responsiveness */
+        @media only screen and (max-width: 768px) {
+            
+            select {
+                width: 90%;
+                margin-left: 5%;
+            }
+
+            textarea {
+                margin-left: 5%;
+                width: 90%;
+            }
+
+            .button {
+                width: 90%;
+                margin-left: 5%;
+            }
+
+            .log-container {
+                width: auto;
+                margin-right: 5%;
+                margin-top: 4%;
+            }
+
+            .progress-bar-container {
+                width: 90%;
+                margin-left: 5%;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+    <br>
+    <div class="form_container">
+        <h2>Enter your Protein sequences*</h2>
+        
+
+        <form method="post" enctype="multipart/form-data" id="upload-form">
+            {% csrf_token %}
+            <div class="container">
+                <div class="form-content">
+
+                    <label for="specie_select">Select the pathogen:</label>
+
+                    <span style="position: absolute; margin-top: -1.5%; left: 48%; font-family: Bahnschrift; font-size: medium; font-weight: bold;">ESKAPE</span>
+                    <select name="pathogen" id="pathogen" onchange="updateSelectedPathogen()">
+                        <option value="Enterococcus faecium">Enterococcus faecium</option>
+                        <option value="Staphylococcus aureus">Staphylococcus aureus</option>
+                        <option value="Klebsiella pneumoniae">Klebsiella pneumoniae</option>
+                        <option value="Acinetobacter baumannii">Acinetobacter baumannii</option>
+                        <option value="Pseudomonas aeruginosa">Psedomonas aeruginosa</option>
+                        <option value="Enterobacter">Enterobacter</option>
+                    </select><br><br>
+                
+                <a style="padding-left: 5%;" href="javascript:void(0);" onclick="copyExampleSequence()">Example Sequence</a>
+    
+                <div class="textarea">
+                    <textarea id="sequence-textarea" name="sequence" rows="8" cols="90"></textarea><br><br>
+                </div>
+    
+                <br>
+                <input type="hidden" name="rendered_output" value="{{ rendered_output|safe }}">
+                
+                <input
+                    class="button" type="submit" value="Analyze Sequence(s)" id="uploadbutton" onclick="activateProgressBar()">
+            </div>
+    
+            <div class="log-container">
+                <h4 style="margin-left: 2%;">Progress Log</h4>
+                <div id="log-messages">
+                    {% for log in logs %}
+                        {{ log }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div style="margin-top: 2%;" >
+            <h4 style="color: red; display: inline-block;">For Batch Analysis:</h4>
+            <a style="padding-left: 5%; font-family: Bahnschrift; font-size: medium; display: inline-block; margin-bottom: 5%" href="https://nustedupk0-my.sharepoint.com/:u:/g/personal/snasir_msib08asab_student_nust_edu_pk/EYZZwQRFfTtEtvw8q0nuoGMBF5evIWp6TF1taLLHMlTVLQ?e=FSl3sq" target="_blank">
+                <button style="font-family: Bahnschrift; font-size: medium; background-color: #189AB4; border: none; color: white; height: 35px; margin-left: -23%;" type="button">Download EXE</button>
+            </a>
+        </div>
+    </form>
+    </div>
+    <br><br><br>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function getLatestLogs() {
+            $.ajax({
+                url: '/get_latest_logs/',
+                type: 'GET',
+                success: function(response) {
+                    var logMessagesDiv = document.getElementById('log-messages');
+                    logMessagesDiv.innerHTML = response.logs.join('<br>');
+                    logMessagesDiv.scrollTop = logMessagesDiv.scrollHeight;
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            setInterval(getLatestLogs, 5000);
+        });
+    </script>
+    <script>
+        function activateProgressBar() {
+            var progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = '100%';
+        }
+    </script>
+    
+    <script>
+        function copyExampleSequence() {
+            // Replace these example values with your desired FASTA identifier and sequence
+            var exampleFastaIdentifier = ">P32722.1";
+            var exampleSequence = "MKVMKWSAIALAVSAGSTQFAVADAFVSDQAEAKGFIEDSSLDLLLRNYYFNRDGKSGSGDRVDWTQGFLTTYESGFTQGTVGFGVDAFGYLGLKLDGTSDKTGTGNLPVMNDGKPRDDYSRAGGAVKVRISKTMLKWGEMQPTAPVFAAGGSRLFPQTATGFQLQSSEFEGLDLEAGHFTEGKEPTTVKSRGELYATYAGETAKSADFIGGRYAITDNLSASLYGAELEDIYRQYYLNSNYTIPLASDQSLGFDFNIYRTNDEGKAKAGDISNTTWSLAAAYTLDAHTFTLAYQKVHGDQPFDYIGFGRNGSGAGGDSIFLANSVQYSDFNGPGEKSWQARYDLNLASYGVPGLTFMVRYINGKDIDGTKMSDNNVGYKNYGYGEDGKHHETNLEAKYVVQSGPAKDLSFRIRQAWHRANADQGEGDQNEFRLIVDYPLSIL";
+
+            // Combine the identifier and sequence
+            var fullExampleSequence = exampleFastaIdentifier + "\n" + exampleSequence;
+
+            // Copy the example sequence to the textarea
+            document.getElementById('sequence-textarea').value = fullExampleSequence;
+        }
+    </script>
+
+    
+</body>
+</html>
+{% endblock %}

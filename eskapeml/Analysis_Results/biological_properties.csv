@@ -1,0 +1,27 @@
+Protein_ID,antigenicity_1,b_cells_probability_score,mhci_probability_score,mhci_rank,mhcii_rank,mhcii_score,surface_probability,signal_peptide_SP,signal_peptide_LIPO,signal_peptide_TATLIPO,signal_peptide_TAT,signal_peptide_PILIN,signal_peptide_OTHERS,Epitope_Type,Epitope_Sequence,Thresholds
+P32722.1,1.003984,0.354758,0.580333,0.16,0.535,0.87985,1.000005,,,,,,,,,
+,,,,,,,,0.793805,0.001760,0.000690,0.000911,0.000997,0.201834,,,
+,,,,,,,,,,,,,,mhci,TLDAHTFTL,
+,,,,,,,,,,,,,,mhci,LIVDYPLSI,
+,,,,,,,,,,,,,,mhci,SADFIGGRY,
+,,,,,,,,,,,,,,mhci,SLDLLLRNY,
+,,,,,,,,,,,,,,mhci,WTQGFLTTY,
+,,,,,,,,,,,,,,mhci,LEDIYRQYY,
+,,,,,,,,,,,,,,mhci,ELEDIYRQY,
+,,,,,,,,,,,,,,mhci,RYDLNLASY,
+,,,,,,,,,,,,,,mhci,TDNLSASLY,
+,,,,,,,,,,,,,,mhci,DAHTFTLAY,
+,,,,,,,,,,,,,,mhci,TTWSLAAAY,
+,,,,,,,,,,,,,,mhci,TVKSRGELY,
+,,,,,,,,,,,,,,mhci,YGAELEDIY,
+,,,,,,,,,,,,,,mhci,KMSDNNVGY,
+,,,,,,,,,,,,,,mhci,IFLANSVQY,
+,,,,,,,,,,,,,,mhcii,STQFAVADAFVSDQA,
+,,,,,,,,,,,,,,mhcii,NTTWSLAAAYTLDAH,
+,,,,,,,,,,,,,,mhcii,GSTQFAVADAFVSDQ,
+,,,,,,,,,,,,,,mhcii,SNTTWSLAAAYTLDA,
+,,,,,,,,,,,,,,,,"Threshold for strong ""MHC Class I"" binder: % Rank = Lower than 0.5"
+,,,,,,,,,,,,,,,,"Threshold for strong ""MHC Class II"" binder: % Rank = Lower than 1"
+,,,,,,,,,,,,,,,,"Threshold for strong ""B cell epitope"": Score = Greater than 0.5"
+,,,,,,,,,,,,,,,,Antigenicity = Value close to 1 or Greater than 1 indicates high antigenicity
+,,,,,,,,,,,,,,,,"SignalP result threshold: If a value of any column is 1 or close to 1, the protein belongs to that category"
