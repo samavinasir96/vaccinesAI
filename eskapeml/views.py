@@ -194,16 +194,15 @@ def calculate_features(request, file_path, progress_callback):
                 print(f"Error running: {' '.join(cmd)}")
                 raise
         
-
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type Moran --out eskapeml/Temp_Results/ifeature3.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type Geary --out eskapeml/Temp_Results/ifeature4.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type NMBroto --out eskapeml/Temp_Results/ifeature5.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type CTriad --out eskapeml/Temp_Results/ifeature9.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type KSCTriad --out eskapeml/Temp_Results/ifeature10.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type SOCNumber --out eskapeml/Temp_Results/ifeature11.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type QSOrder --out eskapeml/Temp_Results/ifeature12.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type CKSAAP --out eskapeml/Temp_Results/ifeature15.tsv')
-        subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type CKSAAGP --out eskapeml/Temp_Results/ifeature19.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type Moran --out eskapeml/Temp_Results/ifeature3.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type Geary --out eskapeml/Temp_Results/ifeature4.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type NMBroto --out eskapeml/Temp_Results/ifeature5.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type CTriad --out eskapeml/Temp_Results/ifeature9.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type KSCTriad --out eskapeml/Temp_Results/ifeature10.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type SOCNumber --out eskapeml/Temp_Results/ifeature11.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type QSOrder --out eskapeml/Temp_Results/ifeature12.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type CKSAAP --out eskapeml/Temp_Results/ifeature15.tsv')
+        # subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type CKSAAGP --out eskapeml/Temp_Results/ifeature19.tsv')
         
         if progress_callback:
             completed_steps += 1
@@ -699,11 +698,17 @@ def download_csv(request):
 def delete_files(request):
     script_dir = sys.path[0]
     folder_path = os.path.join(script_dir, 'eskapeml/Temp_Results')
+    signalp_folder_path = os.path.join(script_dir, 'eskapeml/Temp_Results/signalP')
 
     # Delete all files in the folder
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
         if os.path.isfile(file_path):
             os.remove(file_path)
+
+    for filename2 in os.listdir(signalp_folder_path):
+        file_path2 = os.path.join(signalp_folder_path, filename2)
+        if os.path.isfile(file_path2):
+            os.remove(file_path2)
 
     return HttpResponseRedirect('/')    
