@@ -1,3 +1,4 @@
+from pathlib import Path
 from django.shortcuts import render
 import subprocess
 import time
@@ -155,6 +156,44 @@ def calculate_features(request, file_path, progress_callback):
         if progress_callback:
             completed_steps += 1
             progress_callback(message="Physiochemical parameters analysis in progress", progress=int((completed_steps/total_steps)*100))
+
+        # Get base directory (adjust if your structure differs)
+        BASE_DIR = Path(__file__).resolve().parent.parent
+
+        # Define absolute paths
+        IFEATURE_PATH = BASE_DIR / "Data" / "iFeature" / "iFeature.py"
+        INPUT_FILE = BASE_DIR / "eskapeml" / "sequences.fasta"
+        OUTPUT_DIR = BASE_DIR / "eskapeml" / "Temp_Results"
+
+        # Create output directory if it doesn't exist
+        OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+        commands = [
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "Moran", "--out", str(OUTPUT_DIR/"ifeature3.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "Geary", "--out", str(OUTPUT_DIR/"ifeature4.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "NMBroto", "--out", str(OUTPUT_DIR/"ifeature5.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "CTriad", "--out", str(OUTPUT_DIR/"ifeature9.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "KSCTriad", "--out", str(OUTPUT_DIR/"ifeature10.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "SOCNumber", "--out", str(OUTPUT_DIR/"ifeature11.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "QSOrder", "--out", str(OUTPUT_DIR/"ifeature12.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "CKSAAP", "--out", str(OUTPUT_DIR/"ifeature15.tsv")],
+            ["python", str(IFEATURE_PATH), "--file", str(INPUT_FILE), "--type", "CKSAAGP", "--out", str(OUTPUT_DIR/"ifeature19.tsv")],
+        ]
+
+        for cmd in commands:
+            try:
+                result = subprocess.run(
+                    cmd,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                print(f"Success: {' '.join(cmd)}")
+                print(result.stdout)
+            except subprocess.CalledProcessError as e:
+                print(f"Error running: {' '.join(cmd)}")
+                raise
+        
 
         subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type Moran --out eskapeml/Temp_Results/ifeature3.tsv')
         subprocess.run('python "Data/iFeature/iFeature.py" --file eskapeml/sequences.fasta --type Geary --out eskapeml/Temp_Results/ifeature4.tsv')
