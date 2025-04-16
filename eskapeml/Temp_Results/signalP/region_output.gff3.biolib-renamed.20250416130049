@@ -1,0 +1,4 @@
+## gff-version 3
+P32722.1	SignalP-6.0	n-region	1	5	.	.	.	.
+P32722.1	SignalP-6.0	h-region	6	18	.	.	.	.
+P32722.1	SignalP-6.0	c-region	19	23	.	.	.	.

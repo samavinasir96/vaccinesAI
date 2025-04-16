@@ -1,0 +1,126 @@
+{% extends './base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    /* Similar styles as before for the progress bar and logs */
+    body {
+        font-family: 'Roboto Condensed', sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+    
+    .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .progress-container {
+        margin: 30px 0;
+    }
+    
+    .progress-bar {
+        height: 20px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        width: 0%;
+        background-color: #05445E;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .log-section {
+        margin-top: 30px;
+    }
+    
+    .log-box {
+        border: 1px solid #ddd;
+        padding: 15px;
+        height: 400px;
+        overflow-y: auto;
+        background-color: #f9f9f9;
+        font-family: monospace;
+    }
+    
+    .status-message {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 1.2em;
+    }
+</style>
+
+<div class="main-container">
+    <h2>Processing Your Sequences</h2>
+    <div class="status-message" id="status-message">Starting analysis...</div>
+    
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-text" id="progress-text">0% Done</div>
+    </div>
+    
+    <div class="log-section">
+        <label>Progress Log</label>
+        <div class="log-box" id="log-messages">
+            <!-- Log messages will appear here -->
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Start polling immediately
+        var progressInterval = setInterval(updateProgress, 1000);
+        
+        function updateProgress() {
+            $.ajax({
+                url: '/get_progress/',
+                type: 'GET',
+                success: function(data) {
+                    // Update progress bar
+                    $('#progress-fill').css('width', data.progress + '%');
+                    $('#progress-text').text(data.progress + '% Done');
+                    
+                    // Update logs
+                    var logMessages = $('#log-messages');
+                    logMessages.html(data.logs.join('<br>'));
+                    logMessages.scrollTop(logMessages[0].scrollHeight);
+                    
+                    // Update status message
+                    if (data.progress < 100) {
+                        $('#status-message').text('Processing... (' + data.progress + '%)');
+                    } else {
+                        $('#status-message').text('Processing complete! Redirecting to results...');
+                    }
+                    
+                    // Stop polling and redirect if completed
+                    if (data.progress >= 100) {
+                        clearInterval(progressInterval);
+                        setTimeout(function() {
+                            window.location.href = '/eskapeml_results';
+                        }, 2000);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching progress:', error);
+                    $('#status-message').text('Error checking progress. Please refresh the page.');
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

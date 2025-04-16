@@ -78,7 +78,6 @@ def get_latest_logs(request):
         latest_logs = log_file.readlines()
     return JsonResponse({'logs': latest_logs})
 
-
 def upload_sequence(request):
     if request.method == "POST":
         if not request.session.session_key:
@@ -112,6 +111,8 @@ def upload_sequence(request):
                     status=400
                 )
             
+            cache.set(f'progress_{request.session.session_key}', 0, timeout=3600)
+            cache.set(f'logs_{request.session.session_key}', ["Starting analysis..."], timeout=3600)
             
             calculate_features(request, file_path, lambda message, progress: progress_callback(request, message, progress))
 
@@ -124,7 +125,9 @@ def upload_sequence(request):
 
         # return redirect("eskapeml_results")
     return render(request, 'upload_vacsolml.html')
-    
+
+def processing_view(request):
+    return render(request, 'processing.html')   
 
 def calculate_features(request, file_path, progress_callback):
     

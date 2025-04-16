@@ -41,6 +41,8 @@ urlpatterns = [
     path('eskapeml_download_csv/', eskapeml_views.download_csv, name='eskapeml_download_csv'),
     path('eskapeml_delete_files/', eskapeml_views.delete_files, name='eskapeml_delete_files'),
     path('eskapeml_display/', eskapeml_views.display_features, name='eskapeml_display_features'),
+    # path('processing/', eskapeml_views.processing_view, name='processing'),
+
 
     path('glossary/',eskapeml_views.glossary,name='glossary'),
     path('faqs/',eskapeml_views.faqs,name='faqs')

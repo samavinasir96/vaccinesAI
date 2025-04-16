@@ -125,6 +125,9 @@
     .highlight {
         font-weight: bold;
     }
+    .progress-content {
+        display: none; /* Hidden by default */
+    }
 
     @media (max-width: 768px) {
         .form-container {
@@ -136,42 +139,46 @@
 <br>
 <br>
 <div class="main-container">
-    <div class="description-container" style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
-        <div class="logo" style="flex-shrink: 0;">
-            <img src="{% static 'vacsolml-logo.png' %}" alt="VacSol-ML Logo" style="max-height: 120px; width: auto;">
-        </div>
-        <div class="description" style="flex: 1;">
-            <p><span class="highlight">VacSol-ML(ESKAPE)</span> is an open-source, <span class="highlight">reverse vaccinology pipeline</span>, with <span class="highlight">advanced machine learning algorithms</span> to streamline the identification and evaluation of <span class="highlight">vaccine immunogens</span> targeted for <span class="highlight">ESKAPE</span> pathogens. VacSol-ML's powerful ensemble model expertly analyze <span class="highlight">protein sequence data</span>, providing unparalleled insights for targeted vaccine development.</p>
-        </div>
-    </div>
-    
-    <form method="post" enctype="multipart/form-data" id="upload-form">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="pathogen">Select the Pathogen (The Fasta Sequence Data Belongs to):</label>
-            <select name="pathogen" id="pathogen">
-                <option value="Enterococcus faecium">Enterococcus faecium</option>
-                <option value="Staphylococcus aureus">Staphylococcus aureus</option>
-                <option value="Klebsiella pneumoniae">Klebsiella pneumoniae</option>
-                <option value="Acinetobacter baumannii">Acinetobacter baumannii</option>
-                <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
-                <option value="Enterobacter">Enterobacter</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="sequence-textarea">Enter your Protein Fasta Sequences *</label>
-            <a class="example-link" onclick="copyExampleSequence()">Example Sequence</a>
-            <textarea id="sequence-textarea" name="sequence" placeholder=">P32722.1&#10;MKVMKWSAIALAVSAGSTQFAVADAFVSDQAEAKGFIEDSSLDLLLRNYYFNRDGKSGSGDRVDWTQGFLTTYESGFTQGTVGFGVDAFGYLGLKLDGTSDKTGTGNLPVMNDGKPRDDYSRAGGAVKVRISKTMLKWGEMQPTAPVFAAGGSRLFPQTATGFQLQSSEFEGLDLEAGHFTEGKEPTTVKSRGELYATYAGETAKSADFIGGRYAITDNLSASLYGAELEDIYRQYYLNSNYTIPLASDQSLGFDFNIYRTNDEGKAKAGDISNTTWSLAAAYTLDAHTFTLAYQKVHGDQPFDYIGFGRNGSGAGGDSIFLANSVQYSDFNGPGEKSWQARYDLNLASYGVPGLTFMVRYINGKDIDGTKMSDNNVGYKNYGYGEDGKHHETNLEAKYVVQSGPAKDLSFRIRQAWHRANADQGEGDQNEFRLIVDYPLSIL"></textarea>
+    <div id="upload-form-section">
+        <div class="description-container" style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
+            <div class="logo" style="flex-shrink: 0;">
+                <img src="{% static 'vacsolml-logo.png' %}" alt="VacSol-ML Logo" style="max-height: 120px; width: auto;">
+            </div>
+            <div class="description" style="flex: 1;">
+                <p><span class="highlight">VacSol-ML(ESKAPE)</span> is an open-source, <span class="highlight">reverse vaccinology pipeline</span>, with <span class="highlight">advanced machine learning algorithms</span> to streamline the identification and evaluation of <span class="highlight">vaccine immunogens</span> targeted for <span class="highlight">ESKAPE</span> pathogens. VacSol-ML's powerful ensemble model expertly analyze <span class="highlight">protein sequence data</span>, providing unparalleled insights for targeted vaccine development.</p>
+            </div>
         </div>
         
-        <div class="input-section">
-            <button type="submit" class="button">Analyze Sequence(s)</button>
-        </div>
+        <form method="post" enctype="multipart/form-data" id="upload-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="pathogen">Select the Pathogen (The Fasta Sequence Data Belongs to):</label>
+                <select name="pathogen" id="pathogen">
+                    <option value="Enterococcus faecium">Enterococcus faecium</option>
+                    <option value="Staphylococcus aureus">Staphylococcus aureus</option>
+                    <option value="Klebsiella pneumoniae">Klebsiella pneumoniae</option>
+                    <option value="Acinetobacter baumannii">Acinetobacter baumannii</option>
+                    <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
+                    <option value="Enterobacter">Enterobacter</option>
+                </select>
+            </div>
 
-        <br>
+            <div class="form-group">
+                <label for="sequence-textarea">Enter your Protein Fasta Sequences *</label>
+                <a class="example-link" onclick="copyExampleSequence()">Example Sequence</a>
+                <textarea id="sequence-textarea" name="sequence" placeholder=">P32722.1&#10;MKVMKWSAIALAVSAGSTQFAVADAFVSDQAEAKGFIEDSSLDLLLRNYYFNRDGKSGSGDRVDWTQGFLTTYESGFTQGTVGFGVDAFGYLGLKLDGTSDKTGTGNLPVMNDGKPRDDYSRAGGAVKVRISKTMLKWGEMQPTAPVFAAGGSRLFPQTATGFQLQSSEFEGLDLEAGHFTEGKEPTTVKSRGELYATYAGETAKSADFIGGRYAITDNLSASLYGAELEDIYRQYYLNSNYTIPLASDQSLGFDFNIYRTNDEGKAKAGDISNTTWSLAAAYTLDAHTFTLAYQKVHGDQPFDYIGFGRNGSGAGGDSIFLANSVQYSDFNGPGEKSWQARYDLNLASYGVPGLTFMVRYINGKDIDGTKMSDNNVGYKNYGYGEDGKHHETNLEAKYVVQSGPAKDLSFRIRQAWHRANADQGEGDQNEFRLIVDYPLSIL"></textarea>
+            </div>
+            
+            <div class="input-section">
+                <button type="submit" class="button">Analyze Sequence(s)</button>
+            </div>
+            <div class="standalone-package">
+                <p style="color: rgb(191, 3, 3);"><strong>For Large Number of Sequences:</strong></p><br>
+                <a href="https://nustedupk0-my.sharepoint.com/:u:/g/personal/snasir_msib08asab_student_nust_edu_pk/EYZZwQRFfTtEtvw8q0nuoGMBF5evIWp6TF1taLLHMlTVLQ?e=FSl3sq" target="_blank" class="button">Download Standalone Package</a>
+            </div>
+        </div>
         
-        <div class="log-section">
+        <!-- <div class="log-section">
             <label>Progress Log</label>
             <div class="log-box" id="log-messages">
                 {% for log in logs %}
@@ -185,91 +192,117 @@
                 </div>
                 <div class="progress-text" id="progress-text">0% Done</div>
             </div>
-        </div>
+        </div> -->
     </form>
     
-    <div class="standalone-package">
-        <p><strong>For Large Number of Sequences:</strong></p>
-        <a href="https://nustedupk0-my.sharepoint.com/:u:/g/personal/snasir_msib08asab_student_nust_edu_pk/EYZZwQRFfTtEtvw8q0nuoGMBF5evIWp6TF1taLLHMlTVLQ?e=FSl3sq" target="_blank" class="button">Download Standalone Package</a>
+</div>
+
+<div id="progress-section" class="progress-content">
+    <h2>Processing Your Sequences</h2>
+    <div class="status-message" id="status-message">Starting analysis...</div>
+    
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-text" id="progress-text">0% Done</div>
     </div>
+    
+    <div class="log-section">
+        <label>Progress Log</label>
+        <div class="log-box" id="log-messages">
+            <!-- Log messages will appear here -->
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    // Start polling when page loads
     $(document).ready(function() {
-        startProgressPolling();
-        
-        // Handle form submission
         $('#upload-form').on('submit', function(e) {
             e.preventDefault();
-            var formData = new FormData(this);
+            var form = $(this);
+            var button = $('#analyze-button');
             
-            // Reset progress bar
-            $('#progress-fill').css('width', '0%');
-            $('#progress-text').text('0% Done');
-            $('#log-messages').html('');
+            // Disable button and show loading state
+            button.prop('disabled', true);
+            button.text('Processing...');
+            
+            // Hide upload form, show progress section
+            $('#upload-form-section').hide();
+            $('#progress-section').show();
+            
+            // Start progress polling
+            var progressInterval = setInterval(updateProgress, 1000);
             
             // Submit form via AJAX
             $.ajax({
-                url: $(this).attr('action'),
+                url: form.attr('action'),
                 type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()
-                },
+                data: form.serialize(),
                 success: function(response) {
-                    // Redirect happens from server side
+                    if (response.error) {
+                        alert(response.message);
+                        resetForm();
+                    }
+                    // No redirect needed - we're showing progress on same page
                 },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
+                error: function(xhr) {
+                    var errorMsg = xhr.responseJSON?.message || "An error occurred";
+                    alert(errorMsg);
+                    resetForm();
                 }
             });
-        });
-    });
-
-    function startProgressPolling() {
-        progressInterval = setInterval(updateProgress, 1000);
-    }
-
-    function updateProgress() {
-        $.ajax({
-            url: '/get_progress/',
-            type: 'GET',
-            headers: {
-                'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()
-            },
-            success: function(data) {
-                // Update progress bar
-                $('#progress-fill').css('width', data.progress + '%');
-                $('#progress-text').text(data.progress + '% Done');
-                
-                // Update logs
-                var logMessages = $('#log-messages');
-                logMessages.html(data.logs.join('<br>'));
-                logMessages.scrollTop(logMessages[0].scrollHeight);
-                
-                // Stop polling if completed
-                if (data.progress >= 100) {
-                    clearInterval(progressInterval);
-                    setTimeout(function() {
-                        window.location.href = '/eskapeml_results';
-                    }, 2000);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching progress:', error);
+            
+            function updateProgress() {
+                $.get('/get_progress/', function(data) {
+                    // Update progress bar
+                    $('#progress-fill').css('width', data.progress + '%');
+                    $('#progress-text').text(data.progress + '% Done');
+                    
+                    // Update logs
+                    var logMessages = $('#log-messages');
+                    logMessages.html(data.logs.join('<br>'));
+                    logMessages.scrollTop(logMessages[0].scrollHeight);
+                    
+                    // Update status
+                    $('#status-message').text(
+                        data.progress < 100 ? 
+                        `Processing... (${data.progress}%)` : 
+                        'Processing complete! Preparing results...'
+                    );
+                    
+                    // Handle completion
+                    if (data.progress >= 100) {
+                        clearInterval(progressInterval);
+                        setTimeout(function() {
+                            window.location.href = '/eskapeml_results';
+                        }, 2000);
+                    }
+                }).fail(function() {
+                    $('#status-message').text('Error checking progress');
+                });
+            }
+            
+            function resetForm() {
+                clearInterval(progressInterval);
+                button.prop('disabled', false);
+                button.text('Analyze Sequence(s)');
+                $('#progress-section').hide();
+                $('#upload-form-section').show();
             }
         });
-    }
-    function copyExampleSequence() {
-        var exampleFastaIdentifier = ">P32722.1";
-        var exampleSequence = "MKVMKWSAIALAVSAGSTQFAVADAFVSDQAEAKGFIEDSSLDLLLRNYYFNRDGKSGSGDRVDWTQGFLTTYESGFTQGTVGFGVDAFGYLGLKLDGTSDKTGTGNLPVMNDGKPRDDYSRAGGAVKVRISKTMLKWGEMQPTAPVFAAGGSRLFPQTATGFQLQSSEFEGLDLEAGHFTEGKEPTTVKSRGELYATYAGETAKSADFIGGRYAITDNLSASLYGAELEDIYRQYYLNSNYTIPLASDQSLGFDFNIYRTNDEGKAKAGDISNTTWSLAAAYTLDAHTFTLAYQKVHGDQPFDYIGFGRNGSGAGGDSIFLANSVQYSDFNGPGEKSWQARYDLNLASYGVPGLTFMVRYINGKDIDGTKMSDNNVGYKNYGYGEDGKHHETNLEAKYVVQSGPAKDLSFRIRQAWHRANADQGEGDQNEFRLIVDYPLSIL";
-        var fullExampleSequence = exampleFastaIdentifier + "\n" + exampleSequence;
-        document.getElementById('sequence-textarea').value = fullExampleSequence;
+        
+    });
+</script>
+
+<script> function copyExampleSequence() {
+    var exampleFastaIdentifier = ">P32722.1";
+    var exampleSequence = "MKVMKWSAIALAVSAGSTQFAVADAFVSDQAEAKGFIEDSSLDLLLRNYYFNRDGKSGSGDRVDWTQGFLTTYESGFTQGTVGFGVDAFGYLGLKLDGTSDKTGTGNLPVMNDGKPRDDYSRAGGAVKVRISKTMLKWGEMQPTAPVFAAGGSRLFPQTATGFQLQSSEFEGLDLEAGHFTEGKEPTTVKSRGELYATYAGETAKSADFIGGRYAITDNLSASLYGAELEDIYRQYYLNSNYTIPLASDQSLGFDFNIYRTNDEGKAKAGDISNTTWSLAAAYTLDAHTFTLAYQKVHGDQPFDYIGFGRNGSGAGGDSIFLANSVQYSDFNGPGEKSWQARYDLNLASYGVPGLTFMVRYINGKDIDGTKMSDNNVGYKNYGYGEDGKHHETNLEAKYVVQSGPAKDLSFRIRQAWHRANADQGEGDQNEFRLIVDYPLSIL";
+    var fullExampleSequence = exampleFastaIdentifier + "\n" + exampleSequence;
+    document.getElementById('sequence-textarea').value = fullExampleSequence; 
     }
 </script>
 
